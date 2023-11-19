@@ -1,0 +1,60 @@
+﻿@using RazorBlog.Extensions
+@inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage<Author>
+@{
+	Layout = "_Layout.cshtml";
+}
+@* Header *@
+<header class="w-full m-0 p-0 bg-cover bg-bottom" style="background-color: #3F46B1">
+	<div class="container max-w-4xl mx-auto p-8 text-center break-normal">
+		<a href="/" class="text-white font-extrabold text-3xl md:text-5xl">
+			The Razor Blog
+		</a>
+	</div>
+</header>
+
+@* Title *@
+<div class="text-center pt-16">
+    <p className="md:text-base text-gray-500 text-sm">Author biography</p>
+    <h1 class="font-bold break-normal text-3xl md:text-5xl">@Model.Name</h1>
+    <p class="md:text-sm pt-2 text-gray-600 text-xs">Born @Model.DateOfBirth.ToShortDateString()</p>
+</div>
+
+@* Picture and bio *@
+<div class="container max-w-5xl mb-4 mt-4 mx-auto">
+    <div class="bg-white p-6 rounded shadow-lg">
+        <div class="flex items-start">
+            <img class="w-32 h-32 rounded-full mr-4 avatar" src="@Model.Picture.Url()" alt="@Model.Picture.AltText()">
+            <p className="text-gray-600 text-xs md:text-sm">@Html.ReplaceLineBreaks(Model.Biography)</p>
+        </div>
+    </div>
+</div>
+
+@* Container *@
+<div class="container max-w-5xl mx-auto mt-4 mb-4">
+
+    @* Posts by author *@
+    <div class="pt-12">
+        <div class="text-center pb-6">
+            <h2 class="font-bold break-normal text-2xl md:text-4xl">Posts by @Model.Name</h2>
+        </div>
+        <div class="container flex flex-wrap">
+
+            @foreach (var post in Model.Posts)
+            {
+                <div class="w-full md:w-1/2 p-6 pb-0 flex flex-col flex-shrink">
+                    <div class="flex-1 bg-white rounded-t rounded-b-none overflow-hidden shadow-lg">
+                        <a href="@post.Url()" class="flex flex-wrap no-underline hover:no-underline">
+                            <img src="@post.CoverImage.Url()" class="h-full w-full rounded-t pb-6" alt="@post.CoverImage.AltText()">
+                            <p class="w-full text-gray-600 text-xs md:text-sm px-6">@Model.UpdateDate.ToShortDateString()</p>
+                            <div class="w-full font-bold text-xl text-gray-900 px-6">@post.Name</div>
+                            <p class="w-full text-gray-600 text-xs md:text-sm px-6">@await Html.PartialAsync("PostTags", post)</p>
+                            <p class="text-gray-800 font-serif text-base px-6 mb-5 pt-6">@post.Excerpt</p>
+                        </a>
+                    </div>
+                </div>
+            }
+
+        </div>
+    </div>
+
+</div>

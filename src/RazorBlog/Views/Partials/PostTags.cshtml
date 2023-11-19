@@ -1,0 +1,16 @@
+﻿@model Post
+@{
+    if (Model.Tags?.Any() is not true)
+    {
+        return;
+    }
+    var theFirstTag = Model.Tags.First();
+    var theOtherTags = Model.Tags.Skip(1).ToArray();
+
+    string TagUrl(string tag) => $"/tags/{tag.ToLowerInvariant()}";
+}
+<a href="@TagUrl(theFirstTag)" class="hover:underline">@theFirstTag</a>
+@foreach (var tag in theOtherTags)
+{
+    @: | <a href="@TagUrl(tag)" class="hover:underline">@tag</a>
+}
