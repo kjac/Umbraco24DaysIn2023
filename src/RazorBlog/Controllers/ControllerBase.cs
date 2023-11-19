@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ViewEngines;
 using Umbraco.Cms.Core.DeliveryApi;
+using Umbraco.Cms.Core.Models.DeliveryApi;
 using Umbraco.Cms.Core.Models.PublishedContent;
 using Umbraco.Cms.Core.PublishedCache;
 using Umbraco.Cms.Core.Web;
@@ -45,7 +46,7 @@ public abstract class ControllerBase<TModel> : RenderController
         // even moreso, if we were querying for something that was expensive to calculate (some kind of composite value),
         // the in-memory query would quickly become sluggish and resource consuming. by using the Delivery API query
         // service, we're always leveraging pre-calculated (indexed) values for our query.
-        var queryResult = _apiContentQueryService.ExecuteQuery(fetch, filters, sorts, skip, take);
+        var queryResult = _apiContentQueryService.ExecuteQuery(fetch, filters, sorts, ProtectedAccess.None, skip, take);
 
         if (queryResult.Success is false)
         {
